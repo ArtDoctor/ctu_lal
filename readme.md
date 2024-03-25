@@ -1,5 +1,7 @@
 # Cramer's Rule + Inverse matrix calculation using adjugate matrices
 
+This program was implemented as part of the Linear Algebra homework for Czech Technical University course.
+
 ## Setup
 The programs compile successfully using the https://www.onlinegdb.com environment.  
 To run programs in https://www.onlinegdb.com, you need to copy the main script file (`cramers.py` or `inverse_adjugate.py`), and the functions from `common.py` file. (Don't forget to remove the import!)  
