@@ -4,6 +4,16 @@ import numpy as np
 from common import get_number_input, get_matrix_input, determinant
 
 
+def transpose(matrix: np.ndarray) -> np.ndarray:
+    """Calculate the transpose of a matrix."""
+    n = matrix.shape[0]
+    transposed_matrix = np.zeros((n, n))
+    for i in range(n):
+        for j in range(n):
+            transposed_matrix[i, j] = matrix[j, i]
+    return transposed_matrix
+
+
 def calculate_minor(matrix: np.ndarray, i: int, j: int) -> float:
     """Calculate the minor of an element by removing its row and column."""
     minor_matrix = np.delete(matrix, i, axis=0)  # Delete the ith row
@@ -27,7 +37,7 @@ def calculate_cofactor(matrix: np.ndarray) -> np.ndarray:
 def calculate_adjugate(matrix: np.ndarray) -> np.ndarray:
     """Calculate the adjugate by transposing the cofactor matrix."""
     cofactor_matrix = calculate_cofactor(matrix)
-    adjugate_matrix = np.transpose(cofactor_matrix)
+    adjugate_matrix = transpose(cofactor_matrix)
     return adjugate_matrix
 
 
