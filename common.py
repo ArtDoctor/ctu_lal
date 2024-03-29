@@ -39,22 +39,34 @@ def get_matrix_input(n: int, m: int) -> np.ndarray:
 
 
 def determinant(matrix: np.ndarray) -> float:
-    """Calculate the determinant of a matrix."""
-    # Base case: if the matrix is 1x1, return the single value.
-    if matrix.size == 1:
-        return matrix[0, 0]
+    """Calculate the determinant of a matrix using Gaussian elimination."""
+    n = matrix.shape[0]
+    matrix = matrix.astype(float)
+    det = 1.0
 
-    # Base case for 2x2 matrix:
-    if matrix.shape[0] == 2:
-        return matrix[0, 0] * matrix[1, 1] - matrix[0, 1] * matrix[1, 0]
+    # Reduce the matrix to upper triangular form
+    for col in range(0, n-1):
+        # Check if the diagonal element is 0
+        if matrix[col, col] == 0:
+            for row in range(col+1, n):
+                # Swap the row with a non-zero element in the same column
+                if matrix[row, col] != 0:
+                    saved_row = matrix[col].copy()
+                    matrix[col] = matrix[row]
+                    matrix[row] = saved_row
+                    det = det * -1
+                    break
 
-    # Recursive case for NxN matrix:
-    det = 0
-    for column in range(matrix.shape[1]):
-        # Create submatrix for minors:
-        submatrix = np.delete(np.delete(matrix, 0, axis=0), column, axis=1)
-        # Calculate the cofactor:
-        cofactor = (-1) ** (column) * matrix[0, column] * determinant(submatrix)
-        det += cofactor
+                # If no non-zero element is found, the determinant is 0 (the matrix is singular)
+                if row == n-1:
+                    return np.array(0.0)
+
+        # Eliminate the elements below the diagonal in the same column
+        for row in range(n-1, col, -1):
+            matrix[row] = matrix[row] - matrix[col] * (matrix[row, col] / matrix[col, col])
+
+    # Calculate the determinant by multiplying the diagonal elements
+    for i in range(n):
+        det *= matrix[i, i]
 
     return det
